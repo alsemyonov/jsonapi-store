@@ -1,0 +1,5 @@
+--title 'jsonapi-store: JSON API Data Store'
+--markup markdown
+lib/**/*.rb
+-
+README.md

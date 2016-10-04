@@ -1,2 +1,4 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "jsonapi/store"
+# frozen_string_literal: true
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'simplecov'
+require 'jsonapi/store'

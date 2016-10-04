@@ -1,7 +1,8 @@
-require "jsonapi/store/version"
+# frozen_string_literal: true
+require 'jsonapi/store/version'
 
-module Jsonapi
-  module Store
-    # Your code goes here...
+module JSONAPI
+  # Basic in-memory store implementation compliant with JSON API
+  class Store
   end
 end
