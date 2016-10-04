@@ -10,36 +10,39 @@ module JSONAPI
     # @param [JSONAPI::Store::Entity] entity
     # @return [JSONAPI::Store] store itself
     def <<(entity)
-      raise NotImplementedError
+      entities << Entity.new(entity)
+      self
     end
 
     # @param [String] identifier
     # @return [JSONAPI::Store::Entity]
     def [](identifier)
-      raise NotImplementedError
+      detect { |entity| entity.identifier == identifier }
     end
 
     # @return [<String>]
     def types
-      raise NotImplementedError
-    end
-
-    # @return [Integer]
-    def size
-      raise NotImplementedError
+      entities.map(&:type).uniq
     end
 
     # @return [<JSONAPI::Store::Entity>]
     def entities
-      raise NotImplementedError
+      @entities ||= []
+    end
+
+    # @return [Integer]
+    def size
+      entities.size
     end
 
     # @overload each(&block)
     #   @return [<JSONAPI::Store::Entity>]
     # @overload each
     #   @return [Enumerator<JSONAPI::Store::Entity>]
-    def each
-      raise NotImplementedError
+    def each(&block)
+      entities.each(&block)
     end
+
+    include Enumerable
   end
 end
