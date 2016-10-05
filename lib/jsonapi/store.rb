@@ -14,11 +14,19 @@ module JSONAPI
       self
     end
 
-    # @param [String] identifier
-    # @return [JSONAPI::Store::Entity]
-    def [](identifier)
+    # @overload fetch(identifier)
+    #   @param [#to_s] identifier
+    #   @return [JSONAPI::Store::Entity?]
+    # @overload fetch(type, id)
+    #   @param [#to_s] type
+    #   @param [#to_s] id
+    #   @return [JSONAPI::Store::Entity?]
+    def fetch(*args)
+      identifier = args.size == 2 ? args.join('/') : args.first.to_s
       detect { |entity| entity.identifier == identifier }
     end
+
+    alias [] fetch
 
     # @return [<String>]
     def types
