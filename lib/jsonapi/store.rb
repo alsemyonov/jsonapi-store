@@ -6,6 +6,7 @@ module JSONAPI
   class Store
     autoload :Entity, 'jsonapi/store/entity'
     autoload :Types, 'jsonapi/store/types'
+    autoload :Identifier, 'jsonapi/store/identifier'
 
     # @param [JSONAPI::Store::Entity] entity
     # @return [JSONAPI::Store] store itself
