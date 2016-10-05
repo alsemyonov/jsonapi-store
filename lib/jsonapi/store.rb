@@ -28,6 +28,13 @@ module JSONAPI
 
     alias [] fetch
 
+    # @param [#to_s] type
+    # @return [<JSONAPI::Store::Entity>]
+    def all(type)
+      type = type.to_s
+      select { |entity| entity.type == type }
+    end
+
     # @return [<String>]
     def types
       entities.map(&:type).uniq

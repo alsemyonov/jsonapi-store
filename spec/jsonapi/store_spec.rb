@@ -16,6 +16,7 @@ RSpec.describe JSONAPI::Store do
     it { is_expected.to respond_to :each }
     it { is_expected.to be_a Enumerable }
     it { is_expected.to respond_to :fetch }
+    it { is_expected.to respond_to :all }
 
     let(:ids) { (0..10).to_a }
     let(:important_entity) { entity(id: '100') }
@@ -62,6 +63,18 @@ RSpec.describe JSONAPI::Store do
       fill_store
 
       expect(store.fetch('examples', 100)).to eq important_entity
+    end
+
+    specify 'finds all resources of given type', :aggregate_failures do
+      fill_store
+
+      examples = store.all('examples')
+      expect(examples).to match_array [
+        any_entity,
+        any_entity,
+        important_entity
+      ]
+      expect(examples).to include important_entity
     end
   end
 end
