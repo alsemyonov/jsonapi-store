@@ -11,7 +11,14 @@ module JSONAPI
     # @param [JSONAPI::Store::Entity] entity
     # @return [JSONAPI::Store] store itself
     def <<(entity)
-      entities << Entity.new(entity)
+      entity = Entity.new(entity)
+      entities << entity
+      entity.relationships.each do |_name, data|
+        Array(data).each do |relationship|
+          relationship = Entity.new(relationship)
+          self << relationship unless self[relationship.identifier]
+        end
+      end
       self
     end
 

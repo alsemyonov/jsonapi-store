@@ -39,7 +39,7 @@ RSpec.describe JSONAPI::Store do
       kind_of(JSONAPI::Store::Entity)
     end
 
-    specify 'stores and fetches entities', :aggregate_failures do
+    it 'stores and fetches entities', :aggregate_failures do
       expect(store.size).to eq(0)
       expect(store.each).to be_a(Enumerator)
       expect(store.entities).to eq []
@@ -59,13 +59,28 @@ RSpec.describe JSONAPI::Store do
       expect(store['examples/11']).to eq nil
     end
 
-    specify 'finds single resources by type and id', :aggregate_failures do
+    it 'stores relationships while string entities', :aggregate_failures do
+      john = entity(
+        id: '200', type: 'people',
+        attributes: { 'name' => 'John Doe' },
+        relationships: { 'examples' => [important_entity] }
+      )
+      important_entity.relationships['author'] = john
+
+      fill_store
+
+      expect(store.size).to eq(4)
+      expect(store['examples/100']).to eq important_entity
+      expect(store['people/200']).to eq john
+    end
+
+    it 'finds single resources by type and id', :aggregate_failures do
       fill_store
 
       expect(store.fetch('examples', 100)).to eq important_entity
     end
 
-    specify 'finds all resources of given type', :aggregate_failures do
+    it 'finds all resources of given type', :aggregate_failures do
       fill_store
 
       examples = store.all('examples')
